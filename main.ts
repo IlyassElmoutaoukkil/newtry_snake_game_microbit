@@ -3,7 +3,7 @@ let score = 0
 let move = "toRight"
 let lastMoveX = 'toLeft'
 let lastMoveY = 'toRight'
-let snakePosition = [[1, 0],[2,0],[3,0]]
+let snakePosition = [[1, 0]]
 let s=0
 let food = [4,4]
 radio.setGroup(1)
@@ -34,12 +34,16 @@ basic.forever(function () {
     basic.clearScreen()
     led.plot(food[0], food[1])
     if (move == "toRight") {
-        let snakeNewX = snakePosition[snakePosition.length - 1][0]+1
-        snakePosition.push([snakeNewX, snakePosition[snakePosition.length - 1][1]])
-        snakePosition.removeAt(0)
-        lastMoveX = 'toRight'
 
-        if (snakePosition[0][0] > 5) {
+            let snakeNewX = snakePosition[snakePosition.length - 1][0]+1
+            snakePosition.push([snakeNewX, snakePosition[snakePosition.length - 1][1]])
+            snakePosition.removeAt(0)
+            lastMoveX = 'toRight'    
+        
+        
+
+
+        if (snakePosition[0][0] > 4) {
 
             let newX = 0 - snakePosition.length
             let reSnake = [[newX, snakePosition[0][1]]]
@@ -57,7 +61,7 @@ basic.forever(function () {
         snakePosition.unshift([snakeNewX, snakePosition[snakePosition.length - 1][1]])
         snakePosition.removeAt(snakePosition.length - 1)
 
-        if (snakePosition[snakePosition.length-1][0] < 0) {
+        if (snakePosition[snakePosition.length-1][0] < 1) {
 
             let newX = 5 + snakePosition.length
             let reSnake = [[newX, snakePosition[0][1]]]
@@ -85,7 +89,7 @@ basic.forever(function () {
             
         }
 
-        if (snakePosition[0][1] > 5) {
+        if (snakePosition[0][1] > 4) {
 
             let newY = 0 - snakePosition.length
             let reSnake = [[snakePosition[0][0],newY]]
@@ -102,6 +106,8 @@ basic.forever(function () {
             let snakeNewY = snakePosition[snakePosition.length - 1][1] - 1
             snakePosition.push([snakePosition[snakePosition.length - 1][0], snakeNewY])
             snakePosition.removeAt(0)
+
+            
         }
 
         if (lastMoveX == 'toLeft') {
@@ -111,16 +117,7 @@ basic.forever(function () {
 
         }
 
-        if (snakePosition[snakePosition.length-1][1] < 0) {
-
-            let newY = 5 + snakePosition.length
-            let reSnake = [[snakePosition[0][0], newY]]
-            for (let i = 1; i < snakePosition.length; i++) {
-                newY--
-                reSnake.push([snakePosition[0][0], newY])
-            }
-            snakePosition = reSnake
-        }
+        
     }
 
     for (let i = 0; i <= snakePosition.length - 1; i++) {
@@ -131,13 +128,11 @@ basic.forever(function () {
             GenerateFood()
             led.plot(food[0], food[1])
         }
-
         led.plot(snakePosition[i][0], snakePosition[i][1])
     }
 
-    console.log(score)
 
-    basic.pause(100)
+    basic.pause(200)
 })
 
 function GenerateFood(){
